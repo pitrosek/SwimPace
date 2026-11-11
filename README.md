@@ -37,11 +37,7 @@ Klub vznikne nebo se vybere
 ## 🤖 Technologie
 
 - Python / Django
-<<<<<<< HEAD
 - MariaDB (cílová databáze)
-=======
-- SQLite (vývoj), později případně PostgreSQL
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 - Docker *(plánováno)*
 
 ---
@@ -54,11 +50,7 @@ Klub vznikne nebo se vybere
 - má přístup ke všem klubům.
 
 ### 🧑‍🏫 Trenér
-<<<<<<< HEAD
 - může působit ve více klubech (lze rozlišit běžného trenéra a správce klubu),
-=======
-- patří ke konkrétnímu klubu (lze rozlišit běžného trenéra a správce klubu),
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 - spravuje své svěřence a zve plavce do klubu,
 - vytváří závody pro svůj klub a přidává k nim disciplíny,
 - přihlašuje plavce na disciplíny,
@@ -68,7 +60,6 @@ Klub vznikne nebo se vybere
 ### 🏊‍♂️ Plavec
 - při registraci nemusí patřit do žádného klubu,
 - vidí svůj osobní profil a může přijmout pozvánku do klubu,
-<<<<<<< HEAD
 - po aktivaci členství vidí klubový dashboard daného klubu,
 - vidí své závody, časy, umístění, body a osobní rekordy,
 - **nemůže** měnit oficiální výsledky.
@@ -78,12 +69,6 @@ uložené jako jediná hodnota v uživatelském profilu, ale vyplývají z exist
 profilu `Plavec` a/nebo `Trener`. Oprávnění trenéra jsou dále určena jeho
 aktivním působením v konkrétním klubu.
 
-=======
-- po aktivaci členství vidí klubový dashboard,
-- vidí své závody, časy, umístění, body a osobní rekordy,
-- **nemůže** měnit oficiální výsledky.
-
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 ### 📋 Přehled oprávnění
 
 | Akce | Administrátor | Trenér (svůj klub) | Plavec s členstvím | Plavec bez klubu |
@@ -110,7 +95,6 @@ Přístup se **nikdy neurčuje podle jména trenéra ani názvu klubu**, ale pod
 
 ```text
 User
-<<<<<<< HEAD
   -> Plavec
   -> Trener
 
@@ -131,23 +115,6 @@ Zavod
        -> CastZavodu
   -> Registrace
        -> Vysledek
-=======
-  -> UserProfile
-       -> role
-       -> klub
-
-Klub
-  -> trenéři
-  -> plavci
-  -> závody
-
-Závod
-  -> disciplíny závodu
-  -> registrace
-
-Registrace
-  -> výsledek
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 ```
 
 Aplikace je rozdělena na tři části:
@@ -166,13 +133,9 @@ Při registraci trenér:
 - vybere existující klub, **nebo**
 - zvolí „Můj klub není v seznamu“ a vytvoří nový (název, město, stát, případně datum založení).
 
-<<<<<<< HEAD
 Název klubu (resp. kombinace názvu a města) se kontroluje proti duplicitám.
 Po vytvoření klubu vznikne trenérovi záznam `TreneriKlubu` s rolí správce
 klubu. Trenér tak může později působit i v dalších klubech.
-=======
-Název klubu (resp. kombinace názvu a města) se kontroluje proti duplicitám. Po vytvoření klubu je trenér k němu automaticky přiřazen.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 ### Plavec
 Plavec při registraci klub **nevybírá**. Začíná jako plavec bez klubu – vidí pouze svůj profil a čeká na pozvánku od trenéra.
@@ -189,14 +152,10 @@ Plavec se zaregistruje
   -> plavec získá přístup ke klubovému dashboardu
 ```
 
-<<<<<<< HEAD
 Členství je samostatný model, aby se zachovala historie přestupů mezi kluby.
 Jeden plavec může mít v jednom klubu více historických členství, ale aktivní
 časové intervaly členství se nesmí překrývat. Přijetí pozvánky a vytvoření
 nebo aktivace členství probíhá v jedné transakci.
-=======
-Členství je samostatný model, aby se zachovala historie přestupů mezi kluby (výsledky zůstanou spojené s původním klubem).
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 Stavy členství: `čeká na potvrzení` · `aktivní` · `odmítnuté` · `ukončené`
 
@@ -231,7 +190,6 @@ Stav se určuje **automaticky podle data a času**, neukládá se ručně:
 Databáze obsahuje **katalog všech závodních disciplín**. Trenér je při vytváření závodu nevytváří znovu, pouze vybere, které se v daném závodě plavou.
 
 - **Individuální:** 50 / 100 / 200 / 400 / 800 / 1500 m volný způsob, 50 / 100 / 200 m znak, prsa a motýlek, 200 / 400 m polohový závod
-<<<<<<< HEAD
 - **Štafety:** 4 × 50 m a 4 × 100 m volný způsob, polohové štafety, mužské / ženské / smíšené
 
 Model `Disciplina`: kód, název, délka, styl (stabilní interní hodnota,
@@ -243,11 +201,6 @@ trenéra se eviduje osobní údaj `pohlavi_osoby`; u konkrétní disciplíny zá
 se případně eviduje `kategorie_pohlavi` (`muz`, `zena`, `smiseny`,
 `otevrena`). Věk se řeší samostatnou entitou `VekovaKategorie`, která se
 přiřazuje k disciplíně konkrétního závodu.
-=======
-- **Štafety** *(do budoucna):* 4 × 50 m a 4 × 100 m volný způsob, polohové štafety, mužské / ženské / smíšené
-
-Model `Disciplina`: název, délka, styl (stabilní interní hodnota, např. `volny_zpusob`; český název jen pro zobrazení), kategorie / pohlaví, typ (individuální / štafeta), aktivní.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 Konkrétní závod má vlastní výběr disciplín přes vazbu:
 
@@ -255,16 +208,12 @@ Konkrétní závod má vlastní výběr disciplín přes vazbu:
 Zavod -> DisciplinyZavodu -> Disciplina
 ```
 
-<<<<<<< HEAD
 `DisciplinyZavodu` obsahuje pořadí, číslo disciplíny, plánovaný začátek,
 pohlavní kategorii a případně věkovou kategorii.
 
 Každá disciplína závodu může mít jednu nebo více částí přes `CastZavodu`:
 rozplavbu, semifinále nebo finále. Tím lze zaznamenat výsledek plavce nebo
 štafety v jednotlivých částech závodu.
-=======
-`DisciplinyZavodu` obsahuje pořadí, číslo disciplíny a případně čas začátku.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 Ve formuláři závodu bude: výběr jednotlivých disciplín, **Vybrat vše**, **Zrušit vše**, **Vybrat individuální**, **Vybrat štafety**.
 
@@ -274,7 +223,6 @@ Ve formuláři závodu bude: výběr jednotlivých disciplín, **Vybrat vše**, 
 
 Registrace na závod **není** výsledek – jsou to dvě oddělené věci.
 
-<<<<<<< HEAD
 **Registrace:** disciplína závodu, buď plavec, nebo štafeta, stav
 (`přihlášen` / `odhlášen` / `nenastoupil`), trenér, který ji vytvořil, datum
 vytvoření a úpravy. Registrace musí obsahovat právě jednoho účastníka:
@@ -289,11 +237,6 @@ typu štafety.
 `diskvalifikován` / `bez výsledku`), čas, umístění, body, poznámka, trenér,
 který výsledek zadal, a datum poslední úpravy. Jedna registrace může mít
 samostatný výsledek v rozplavbě, semifinále i finále.
-=======
-**Registrace:** závod, plavec, disciplína, stav (`přihlášen` / `odhlášen` / `dokončil` / `nedokončil` / `diskvalifikován`), trenér, který ji vytvořil, datum vytvoření a úpravy. Kombinace závod + plavec + disciplína je unikátní.
-
-**Výsledek:** registrace, čas, umístění, body, poznámka, trenér, který výsledek zadal, datum poslední úpravy. Výsledek existuje až ve chvíli, kdy je potřeba zaznamenat výkon.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 **Čas** se ukládá jako počet setin sekundy (`1:04.37` → `6437`) a při zobrazení se formátuje zpět. **Umístění** může aplikace dopočítat podle časů v disciplíně; trenér ho může ručně opravit (shodný čas, diskvalifikace, oficiální výsledky).
 
@@ -303,7 +246,6 @@ samostatný výsledek v rozplavbě, semifinále i finále.
 
 ```mermaid
 erDiagram
-<<<<<<< HEAD
     USER ||--o| PLAVEC : má
     USER ||--o| TRENER : má
     STAT ||--o{ MESTO : obsahuje
@@ -316,19 +258,10 @@ erDiagram
     PLAVEC ||--o{ CLENSTVI_KLUBU : má
     KLUB ||--o{ POZVANKA_DO_KLUBU : posílá
     PLAVEC ||--o{ POZVANKA_DO_KLUBU : dostává
-=======
-    USER ||--|| USERPROFILE : má
-    USERPROFILE }o--o| KLUB : patří
-    USERPROFILE |o--o| PLAVEC : je
-    USERPROFILE |o--o| TRENER : je
-    KLUB ||--o{ CLENSTVI_KLUBU : má
-    PLAVEC ||--o{ CLENSTVI_KLUBU : má
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
     KLUB ||--o{ ZAVOD : pořádá
     TRENER ||--o{ ZAVOD : vytvořil
     ZAVOD ||--o{ DISCIPLINY_ZAVODU : obsahuje
     DISCIPLINA ||--o{ DISCIPLINY_ZAVODU : je_v
-<<<<<<< HEAD
     VEKOVA_KATEGORIE ||--o{ DISCIPLINY_ZAVODU : určuje
     DISCIPLINY_ZAVODU ||--o{ CAST_ZAVODU : má
     DISCIPLINY_ZAVODU ||--o{ REGISTRACE : má
@@ -344,15 +277,6 @@ erDiagram
 
 > Diagram odpovídá cílovému datovému modelu. Některé vazby zatím nejsou
 > implementované v kódu – viz Roadmapa.
-=======
-    ZAVOD ||--o{ REGISTRACE : má
-    PLAVEC ||--o{ REGISTRACE : podává
-    DISCIPLINA ||--o{ REGISTRACE : na
-    REGISTRACE ||--o| VYSLEDEK : má
-```
-
-> Diagram odpovídá cílovému stavu. Některé vazby (členství, vlastnictví závodu klubem, `DisciplinyZavodu`) zatím nejsou v kódu hotové – viz Roadmapa.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 ---
 
@@ -378,7 +302,6 @@ Trenér vytvoří trénink s místem (bazén), popisem, plánem (série, vzdále
 
 - Uživatel nesmí získat přístup k datům klubu změnou ID v URL.
 - Každý klubový dotaz je filtrován přes klub přihlášeného uživatele.
-<<<<<<< HEAD
 - Trenér spravuje pouze kluby, ve kterých má aktivní působení a potřebnou roli.
 - Plavce nebo štafetu může přihlásit jen za klub, ke kterému má oprávnění a
   pro který má účastník aktivní členství.
@@ -391,13 +314,6 @@ Trenér vytvoří trénink s místem (bazén), popisem, plánem (série, vzdále
   intervalu.
 - Aktivní členství stejného plavce ve stejném klubu se nesmí překrývat.
 - Přijatá pozvánka musí vést k vytvoření nebo aktivaci členství.
-=======
-- Trenér spravuje pouze svůj klub a své svěřence; plavce může přihlásit jen ze svého klubu.
-- Plavec může upravovat pouze vlastní neoficiální údaje.
-- Výsledky zadává pouze oprávněný trenér po skončení závodu.
-- Disciplína musí patřit ke konkrétnímu závodu; registrace je unikátní.
-- Čas nesmí být záporný, umístění musí být kladné (pokud je vyplněné), body mají validovaný rozsah.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 - Klub a závod nesmí vznikat s prázdnými povinnými údaji.
 - Oprávnění mezi kluby budou pokryta testy (povolený i zakázaný přístup).
 
@@ -405,7 +321,6 @@ Trenér vytvoří trénink s místem (bazén), popisem, plánem (série, vzdále
 
 ## ✅ Stav projektu
 
-<<<<<<< HEAD
 **Cílový datový model:**
 
 - uživatel může mít profil plavce, trenéra nebo oba profily,
@@ -420,24 +335,11 @@ Trenér vytvoří trénink s místem (bazén), popisem, plánem (série, vzdále
 **Další hlavní etapa:** převést tento model do Django modelů a následně do
 uživatelského rozhraní – klubový dashboard, vytváření závodů, katalog
 disciplín, pozvánky plavcům, registrace štafet a trenérské zadávání výsledků.
-=======
-**Hotovo (základ):**
-
-- základní modely: klub, plavec, trenér, disciplína, závod, registrace, výsledek
-- vazba uživatelského profilu na klub a na plavce / trenéra
-- samostatný model `Registrace` s unikátností závod + plavec + disciplína a stavem registrace
-- přesný čas v setinách sekundy
-- evidence uživatele, který výsledek zadal
-- zápis trenéra vytváří registraci místo falešného výsledku (starší data byla zachována)
-
-**Další hlavní etapa:** převést tuto logiku do uživatelského rozhraní – klubový dashboard, vytváření závodů, katalog disciplín, pozvánky plavcům a trenérské zadávání výsledků.
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 ---
 
 ## 🗺️ Roadmapa
 
-<<<<<<< HEAD
 - [ ] 1. Přepsání cílového datového modelu do Django modelů
 - [ ] 2. Migrace na MariaDB a doplnění databázových omezení
 - [ ] 3. Model členství, působení trenérů a pozvánek do klubu
@@ -456,33 +358,10 @@ disciplín, pozvánky plavcům, registrace štafet a trenérské zadávání vý
 - [ ] 16. Opravy validací vstupů a UI
 - [ ] 17. OAuth přihlášení
 - [ ] 18. Docker a produkční nasazení
-=======
-- [ ] 1. Vlastnictví závodu klubem a trenérem
-- [ ] 2. Model členství / pozvánek do klubu
-- [ ] 3. Úprava registrace trenéra a plavce podle nového toku
-- [ ] 4. Trenérský dashboard filtrovaný podle klubu
-- [ ] 5. Formulář pro vytvoření závodu
-- [ ] 6. Katalog všech disciplín a možnost „Vybrat vše“
-- [ ] 7. Přihlašování plavců na disciplíny
-- [ ] 8. Zablokování zadávání výsledků před koncem závodu
-- [ ] 9. Hromadný formulář pro výsledky
-- [ ] 10. Automatický výpočet / kontrola umístění
-- [ ] 11. Dashboard plavce
-- [ ] 12. Osobní rekordy a statistiky (včetně bodů FINA)
-- [ ] 13. Testy oprávnění mezi kluby
-- [ ] 14. Opravy validací vstupů a UI (méně scrollování, čitelnost hlavičky, bílý text nahoře)
-- [ ] 15. Refaktor: přidání statických metod a maker pro přehlednost
-- [ ] 16. OAuth přihlášení
-- [ ] 17. Docker a produkční nasazení
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 
 ### 🚀 Budoucí rozšíření
 
 - tréninky a docházka
-<<<<<<< HEAD
-=======
-- štafety
->>>>>>> d01a9812274831c274fc0dda457b44146ab19c7d
 - notifikace
 - chat mezi trenérem a plavcem
 
